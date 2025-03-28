@@ -1,61 +1,49 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
-void merge(int *arr, int s, int e) {
-    int mid = s + (e - s) / 2;
-    
+void merge (int * arr ,int s, int e) {
+    int mid = s+(e-s)/2;
     int len1 = mid - s + 1;
     int len2 = e - mid;
-    
-    int *first = new int[len1];
-    int *second = new int[len2];
-
-    int k = s;
-    for (int i = 0; i < len1; i++) {
-        first[i] = arr[k++];
+    int * first = new int[len1];
+    int * second = new int[len2];
+    int i = s;
+    for (int j=0; j<len1; j++) {
+        first[j] = arr[i++];
     }
-
-    k = mid + 1;
-    for (int i = 0; i < len2; i++) {
-        second[i] = arr[k++];
+    for (int j=0; j<len2; j++) {
+        second[j] = arr[i++];
     }
-
-    int i = 0, j = 0;
-    k = s;
-    while (i < len1 && j < len2) {
-        if (first[i] < second[j]) arr[k++] = first[i++];
-        else arr[k++] = second[j++];
+    i = s;
+    int j=0, k=0;
+    while (j<len1 && k<len2) {
+        if (first[j]<second[k]) arr[i++] = first[j++];
+        else arr[i++] = second[k++];
     }
-
-    while (i < len1) {
-        arr[k++] = first[i++];
+    while (j<len1) {
+        arr[i++] = first[j++];
     }
-
-    while (j < len2) {
-        arr[k++] = second[j++];
+    while (k<len2) {
+        arr[i++] = second[k++];
     }
-
-    delete[] first;
-    delete[] second;
+    free(first);
+    free(second);
 }
 
-void mergeSort(int *arr, int s, int e) {
-    if (s >= e) return;
-
-    int mid = s + (e - s) / 2;
-    mergeSort(arr, s, mid);
-    mergeSort(arr, mid + 1, e);
-    merge(arr, s, e);
+void mergesort (int * arr, int s, int e) {
+    if (s>=e) return;
+    int mid = s + (e-s)/2;
+    mergesort(arr,0,mid);
+    mergesort(arr,mid+1,e);
+    merge(arr,s,e);
 }
 
 int main() {
-    int arr[5] = {2, 5, 1, 6, 9};
-    int n = 5;
-    mergeSort(arr, 0, n - 1);
-
-    for (int i = 0; i < n; i++) {
-        cout << arr[i] << " ";
+    int arr[] = {9,4,2,7,1,0,3,5,6,8};
+    int n = 10;
+    mergesort(arr,0,n-1);
+    for (int i=0; i<n; i++) {
+        cout<<arr[i]<<" ";
     }
-    cout << endl;
     return 0;
 }
